@@ -219,3 +219,95 @@ nano docker-compose.yml
 clear
 ls
 cat docker-compose.yml 
+ls
+docker-compose up -d
+ls
+free -h
+df -h
+docker-compose up -d
+docker ps
+ls
+docker ps
+docker ps
+docker ps -a 
+docker logs bded238da90
+clear
+docker ps
+docker logs bded238da900
+clear
+ls
+cat docker
+docker ps
+vim docker-compose.yaml
+claer
+clear
+ls
+cd backend/
+ls
+cd Tiffino-User_Login/
+ls
+cd src/
+ls
+cd main/
+ls
+cd java/
+ls
+cd com/
+ls
+cd tiffino/
+ls
+cd user/
+clear
+ls
+cd con
+cd config/
+ls
+vim SecurityConfig.java 
+cd ..
+ls
+cd ..
+ls
+cd ..
+ls
+mvn clean install -Dmaven.test.skip=true
+rm -rf target/
+ls
+clear
+mvn clean install -Dmaven.test.skip=true
+ls
+ls target/
+cd
+ls
+cat docker-compose.yml 
+vim docker-compose.yml 
+nano docker-compose.yml 
+ls
+cd frontend/
+ls
+nano Dockerfile 
+cd
+cd backend/
+ls
+cd 
+cd backend/
+nano ApiGateway/
+cd ApiGateway/
+ls
+nano Dockerfile 
+cd
+nano docker-compose.yml 
+docker-compose up -d
+cat docker-compose.yml 
+docker ps -a
+cd backend/
+ls
+cd Tiffino-User_Login/
+ls 
+cd src/main/resources/
+ls
+nano application.properties 
+cd
+cd  backend/
+cd
+cd frontend/
+ls

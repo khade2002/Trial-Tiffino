@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.SecureRandom;
 import java.util.List;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/admin/managers")
 public class ManagerController {

@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/admin")
 public class AuthController {

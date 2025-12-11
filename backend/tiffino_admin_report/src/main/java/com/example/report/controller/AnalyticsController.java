@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/analytics")
 public class AnalyticsController {
@@ -35,24 +35,6 @@ public class AnalyticsController {
     }
 
 
-//    @PostMapping
-//    public AnalyticsLog addLog(@RequestBody AnalyticsLog log) {
-//        if (log.getTimestamp() == null) {
-//            log.setTimestamp(LocalDateTime.now());
-//        }
-//        return repo.save(log);
-//    }
-//
-//    //  Insert multiple logs at once
-//    @PostMapping("/bulk")
-//    public List<AnalyticsLog> addLogs(@RequestBody List<AnalyticsLog> logs) {
-//        logs.forEach(l -> {
-//            if (l.getTimestamp() == null) {
-//                l.setTimestamp(LocalDateTime.now());
-//            }
-//        });
-//        return repo.saveAll(logs);
-//    }
 
     //  Fetch all logs (for checking data)
     @GetMapping("/summary")

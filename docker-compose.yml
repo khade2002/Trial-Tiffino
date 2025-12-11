@@ -1,20 +1,32 @@
 services:
+  mysql-service:
+    image: mysql:8.0
+    container_name: mysql-service
+    environment:
+      MYSQL_ROOT_PASSWORD: Shubham@1011
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - tiffino-net
+
+  # EUREKA / SERVICE REGISTRY
   service-registry:
-    build:
-      context: ./backend/ServiceRegistry
-      dockerfile: Dockerfile
+    build: ./backend/ServiceRegistry
     container_name: service-registry
     ports:
       - "8761:8761"
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+    depends_on:
+      - mysql-service
     networks:
       - tiffino-net
-#api
+
+  # API GATEWAY
   api-gateway:
-    build:
-      context: ./backend/ApiGateway
-      dockerfile: Dockerfile
+    build: ./backend/ApiGateway
     container_name: api-gateway
     depends_on:
       - service-registry
@@ -25,198 +37,227 @@ services:
       - admin-review
       - user-auth
       - user-menu
-      - user-cart
+      - cart-service
       - user-subscription
       - user-review
       - user-order
-      - cloud-kitchen-super-admin
+      - cloud-kitchen-superadmin
     ports:
       - "9090:9090"
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     networks:
       - tiffino-net
-#admin
+
+  # ADMIN / BACKOFFICE SERVICES
+
   admin-login:
-    build:
-      context: ./backend/admin-log
-      dockerfile: Dockerfile
+    build: ./backend/admin-log
     container_name: admin-login
     depends_on:
       - service-registry
+      - mysql-service
     ports:
       - "9081:9081"
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/admin_login_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Shubham@1011
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     networks:
       - tiffino-net
 
   admin-meal:
-    build:
-      context: ./backend/tiffino_admin_meal
-      dockerfile: Dockerfile
+    build: ./backend/tiffino_admin_meal
     container_name: admin-meal
     depends_on:
       - service-registry
+      - mysql-service
     ports:
       - "9082:9082"
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/admin_meal_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Shubham@1011
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     networks:
       - tiffino-net
 
   admin-order:
-    build:
-      context: ./backend/Tiffino_Admin_order_delivery
-      dockerfile: Dockerfile
+    build: ./backend/Tiffino_Admin_order_delivery
     container_name: admin-order
     depends_on:
       - service-registry
+      - mysql-service
     ports:
       - "9083:9083"
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/admin_order_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Shubham@1011
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     networks:
       - tiffino-net
 
   admin-subscription:
-    build:
-      context: ./backend/Tiffino_admin_Subscription
-      dockerfile: Dockerfile
+    build: ./backend/Tiffino_admin_Subscription
     container_name: admin-subscription
     depends_on:
       - service-registry
+      - mysql-service
     ports:
       - "9084:9084"
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/admin_subscription_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Shubham@1011
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     networks:
       - tiffino-net
 
   admin-review:
-    build:
-      context: ./backend/tiffino_admin_review
-      dockerfile: Dockerfile
+    build: ./backend/tiffino_admin_review
     container_name: admin-review
     depends_on:
       - service-registry
+      - mysql-service
     ports:
       - "9085:9085"
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/admin_review_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Shubham@1011
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     networks:
       - tiffino-net
 
-
-  cloud-kitchen-super-admin:
-    build:
-      context: ./backend/cloud-kitchen-SUPER-ADMIN
-      dockerfile: Dockerfile
+  cloud-kitchen-superadmin:
+    build: ./backend/cloud-kitchen-SUPER-ADMIN
     container_name: cloud-kitchen-super-admin
     depends_on:
       - service-registry
+      - mysql-service
     ports:
       - "8080:8080"
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/cloud_kitchen_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Shubham@1011
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     networks:
       - tiffino-net
-#user
+
+  # USER-FACING SERVICES
+
   user-auth:
-    build:
-      context: ./backend/Tiffino-User_Login
-      dockerfile: Dockerfile
+    build: ./backend/Tiffino-User_Login
     container_name: user-auth
     depends_on:
       - service-registry
+      - mysql-service
     ports:
       - "8081:8081"
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/user_auth_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Shubham@1011
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     networks:
       - tiffino-net
 
   user-menu:
-    build:
-      context: ./backend/tiffino_user_meal
-      dockerfile: Dockerfile
+    build: ./backend/tiffino_user_meal
     container_name: user-menu
     depends_on:
       - service-registry
+      - mysql-service
     ports:
       - "8082:8082"
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/user_menu_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Shubham@1011
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     networks:
       - tiffino-net
 
-  user-cart:
-    build:
-      context: ./backend/Tiffino_User_Cart
-      dockerfile: Dockerfile
+  cart-service:
+    build: ./backend/Tiffino_User_Cart
     container_name: user-cart
     depends_on:
       - service-registry
+      - mysql-service
     ports:
       - "8083:8083"
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/user_cart_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Shubham@1011
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     networks:
       - tiffino-net
 
   user-subscription:
-    build:
-      context: ./backend/Tiffino_user_subscription
-      dockerfile: Dockerfile
+    build: ./backend/Tiffino_user_subscription
     container_name: user-subscription
     depends_on:
       - service-registry
+      - mysql-service
     ports:
       - "8084:8084"
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/user_subscription_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Shubham@1011
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     networks:
       - tiffino-net
 
   user-review:
-    build:
-      context: ./backend/tiffino_user_review
-      dockerfile: Dockerfile
+    build: ./backend/tiffino_user_review
     container_name: user-review
     depends_on:
       - service-registry
+      - mysql-service
     ports:
       - "8085:8085"
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/user_review_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Shubham@1011
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     networks:
       - tiffino-net
 
   user-order:
-    build:
-      context: ./backend/User_Order-service
-      dockerfile: Dockerfile
+    build: ./backend/User_Order-service
     container_name: user-order
     depends_on:
       - service-registry
+      - mysql-service
     ports:
       - "8086:8086"
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/user_order_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Shubham@1011
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
     networks:
       - tiffino-net
-#frontend
+
+  # FRONTEND
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    build: ./frontend
     container_name: frontend
-    depends_on:
-      - api-gateway
     ports:
       - "80:80"
+    depends_on:
+      - api-gateway
     networks:
       - tiffino-net
+
+volumes:
+  mysql-data:
 
 networks:
   tiffino-net:

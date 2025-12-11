@@ -4,7 +4,7 @@ import com.cloudkitchen.admin.model.DeliveryPartner;
 import com.cloudkitchen.admin.repository.DeliveryPartnerRepository;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/admin/delivery-partners")
 public class DeliveryPartnerController {

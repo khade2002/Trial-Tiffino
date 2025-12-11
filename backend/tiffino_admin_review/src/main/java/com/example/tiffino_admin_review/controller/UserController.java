@@ -5,7 +5,7 @@ import com.example.tiffino_admin_review.Service.UserServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/users")
 public class UserController{

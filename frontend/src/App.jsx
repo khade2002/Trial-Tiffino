@@ -11,6 +11,8 @@
 // // Floating Cart Button (single correct import)
 // import FloatingCartButton from "./components/cart/FloatingCartButton";
 
+
+
 // // Pages
 // import Home from "./pages/Home/Home";
 // import Cuisine from "./pages/Cuisine/Cuisine";
@@ -527,6 +529,8 @@ import AdminResetPassword from "./admin/pages/AdminResetPassword";
 
 // ⭐ NEW — Admin Layout Wrapper
 import AdminLayout from "./admin/layout/AdminLayout";
+
+
 
 // Admin Pages
 import AdminDashboard from "./admin/pages/AdminDashboard";

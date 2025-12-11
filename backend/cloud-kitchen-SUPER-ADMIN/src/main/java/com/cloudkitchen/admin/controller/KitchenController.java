@@ -4,7 +4,7 @@ import com.cloudkitchen.admin.model.Kitchen;
 import com.cloudkitchen.admin.repository.KitchenRepository;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/admin/kitchens")
 public class KitchenController {

@@ -5,7 +5,7 @@ import com.cloudkitchen.admin.repository.KitchenRepository;
 import com.cloudkitchen.admin.repository.ManagerRepository;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/admin/reports")
 public class ReportsController {

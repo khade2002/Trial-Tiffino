@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/admin")
 public class ExportController {
